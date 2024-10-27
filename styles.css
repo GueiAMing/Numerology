@@ -47,7 +47,7 @@ button:hover {
     margin-left: 50%; 
     margin-right: 50%;
     width: 100%;
-    font-size: 1.5em;
+    font-size: 12px;
     color: #333;
 }
 
@@ -79,8 +79,28 @@ button:hover {
 }
 
 .div-graph{
-    width: 540px;
-    height: 540px;
+    width: 360px;
+    height: 360px;
     position: relative;
     z-index: 9999;
+}
+
+@media (max-width:1250px){
+    /* 當螢幕寬度小於 1250px, 套用此區塊的 CSS */
+    .div-graph{
+        width: 270px;
+        height: 270px;
+        position: relative;
+        z-index: 9999;
+    }
+}
+
+@media (max-width:435px){
+    /* 當螢幕寬度小於 1250px, 套用此區塊的 CSS */
+    .div-graph{
+        width: 180px;
+        height: 180px;
+        position: relative;
+        z-index: 9999;
+    }
 }

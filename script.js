@@ -159,6 +159,7 @@ function countnumbers(numberswillbecount){
 
 }
 
+//畫圓圈和連線
 function drawcircleforeachnumber(numbertimeslist){
     // 獲取 canvas 元素
     const div = document.getElementById('numbers-table');
@@ -175,7 +176,7 @@ function drawcircleforeachnumber(numbertimeslist){
     canvas.height = div.clientHeight;
     basewidth = canvas.width;
     baseheight = canvas.height;
-
+    numberexistlist = [0,0,0,0,0,0,0,0,0,0];
     for(let i = 1; i<numbertimeslist.length ; i ++){
         console.log(`in drawcircle ${i}`,numbertimeslist[i]);
         coordinateArray = coordinateOfnumbers();
@@ -183,11 +184,12 @@ function drawcircleforeachnumber(numbertimeslist){
         numbertimes = numbertimeslist[i][1];
         console.log(`數字${i}次數:`,numbertimes);
         if (numbertimes > 0 ){
+            numberexistlist[i] = 1;  
             for(let j = 1; j<=numbertimes; j ++){
                 const circlePercentX = coordinateArray[i][0]; // 50% 水平位置
                 const circlePercentY = coordinateArray[i][1]; // 17% 垂直位置
                 const circleRadius = (1/18)*basewidth; // 圓半徑
-                const difference = (1/36)*basewidth;
+                const difference = (1/52)*basewidth;
                 ctx.beginPath();
                 ctx.globalAlpha = 1;
                 const centerX = canvas.width * circlePercentX; // 計算圓心 X 坐標
@@ -199,81 +201,81 @@ function drawcircleforeachnumber(numbertimeslist){
                 console.log(`繪畫數字${i}的第${j}個圓圈`);
             }
         }
- 
+    console.log("numberexistlist:", numberexistlist);
     }
-    // 定義8條連線的起點和終點
-    const lines = [
-        // 水平線
-        [{ x: 0, y: baseheight *firstPercent }, { x: basewidth, y: baseheight *firstPercent }], // 123
-        [{ x: 0, y: baseheight *secondPercent }, { x: basewidth, y: baseheight *secondPercent }], // 456
-        [{ x: 0, y: baseheight *thirdPercent }, { x: basewidth, y: baseheight *thirdPercent }], // 789
-        // 垂直線
-        [{ x: basewidth *firstPercent, y: 0 }, { x: basewidth * firstPercent, y: baseheight }], // 147
-        [{ x: basewidth *secondPercent, y: 0 }, { x: basewidth*secondPercent, y: baseheight }], // 258
-        [{ x: basewidth *thirdPercent, y: 0 }, { x: basewidth * thirdPercent, y: baseheight }], // 369
-        // 對角線
-        [{ x: 0, y: 0 }, { x: basewidth, y: baseheight }], // 159
-        [{ x: 0, y: baseheight }, { x: basewidth, y: 0 }]  // 357
-    ];
+    checklist = [0,
+        '147','258','369',
+        '123','456','789',
+        '159','357'
+        ]
+        drawOrnotlist = [0,
+                    0,0,0,
+                    0,0,0,
+                    0,0
+        ]
+        for (let i= 1;i < checklist.length;i ++){
+            line = parseInt(checklist[i]);
+            const hundreds = Math.floor(line / 100); // 百位數
+            const tens = Math.floor((line - hundreds * 100) / 10); // 十位數
+            const ones = line % 10;             // 個位數
+            console.log(`${i}`,hundreds,tens,ones);
+            if ((numberexistlist[hundreds] === 1) && (numberexistlist[tens] === 1) && (numberexistlist[ones] === 1)){
+                drawOrnotlist[i] = 1;
+            }
+            console.log(hundreds,":",numberexistlist[hundreds]);
+            console.log(tens,":",numberexistlist[tens]);
+            console.log(ones,":",numberexistlist[ones]);
+            console.log("draw or not list:",drawOrnotlist);
+        }
 
-    // 繪製每條線
-    lines.forEach(line => {
-        ctx.beginPath();
-        ctx.globalAlpha = 0.5;
-        ctx.moveTo(line[0].x, line[0].y);
-        ctx.lineTo(line[1].x, line[1].y);
-        ctx.strokeStyle = 'purple';
-        ctx.stroke();
-    });
+        // 定義8條連線的起點和終點
+        const lines = [0,
+                    // 水平線
+                    [{ x: 0, y: baseheight *firstPercent }, { x: basewidth, y: baseheight *firstPercent }], // 147
+                    [{ x: 0, y: baseheight *secondPercent }, { x: basewidth, y: baseheight *secondPercent }], // 258
+                    [{ x: 0, y: baseheight *thirdPercent }, { x: basewidth, y: baseheight *thirdPercent }], // 369
+                    // 垂直線
+                    [{ x: basewidth *firstPercent, y: 0 }, { x: basewidth * firstPercent, y: baseheight }], // 123
+                    [{ x: basewidth *secondPercent, y: 0 }, { x: basewidth*secondPercent, y: baseheight }], // 456
+                    [{ x: basewidth *thirdPercent, y: 0 }, { x: basewidth * thirdPercent, y: baseheight }], // 789
+                    // 對角線
+                    [{ x: 0, y: 0 }, { x: basewidth, y: baseheight }], // 159
+                    [{ x: 0, y: baseheight }, { x: basewidth, y: 0 }]  // 357
+                ];
+        for (let i = 1;i < drawOrnotlist.length; i ++){
+            if  (drawOrnotlist[i] === 1){
+                    ctx.beginPath();
+                    ctx.globalAlpha = 0.5;
+                    ctx.moveTo(lines[i][0].x, lines[i][0].y);
+                    ctx.lineTo(lines[i][1].x, lines[i][1].y);
+                    ctx.strokeStyle = 'purple';
+                    ctx.stroke();
+                }
+        }
+    numberdidnotexistText(numberexistlist);
 }
 
-function drawEightlines(){
-    const div = document.getElementById('numbers-table');
-    const canvas = document.getElementById('gridCanvas');
-    const ctx = canvas.getContext('2d');
-
-    const firstPercent = 1/6; // 17% 水平位置
-    const secondPercent = 3/6; // 50% 水平位置
-    const thirdPercent = 5/6; // 83% 水平位置
-
-    // const rect = canvas.getBoundingClientRect();
-    canvas.width = div.clientWidth;
-    canvas.height = div.clientHeight;
-    basewidth = canvas.width;
-    baseheight = canvas.height;
-
-    // 定義8條連線的起點和終點
-    const lines = [
-        // 水平線
-        [{ x: 0, y: baseheight *firstPercent }, { x: basewidth, y: baseheight *firstPercent }], // 123
-        [{ x: 0, y: baseheight *secondPercent }, { x: basewidth, y: baseheight *secondPercent }], // 456
-        [{ x: 0, y: baseheight *thirdPercent }, { x: basewidth, y: baseheight *thirdPercent }], // 789
-        // 垂直線
-        [{ x: basewidth *firstPercent, y: 0 }, { x: basewidth * firstPercent, y: baseheight }], // 147
-        [{ x: basewidth *secondPercent, y: 0 }, { x: basewidth*secondPercent, y: baseheight }], // 258
-        [{ x: basewidth *thirdPercent, y: 0 }, { x: basewidth * thirdPercent, y: baseheight }], // 369
-        // 對角線
-        [{ x: 0, y: 0 }, { x: basewidth, y: baseheight }], // 159
-        [{ x: 0, y: baseheight }, { x: basewidth, y: 0 }]  // 357
-    ];
-
-    // 繪製每條線
-    lines.forEach(line => {
-        ctx.beginPath();
-        ctx.globalAlpha = 0.5;
-        ctx.moveTo(line[0].x, line[0].y);
-        ctx.lineTo(line[1].x, line[1].y);
-        ctx.strokeStyle = 'purple';
-        ctx.stroke();
-    });
-}
-
+//回傳每個數字的座標
 function coordinateOfnumbers(){
     coordinateArray = [
         [0,0],
-        [1/6,1/6],[3/6,1/6],[5/6,1/6],
-        [1/6,3/6],[3/6,3/6],[5/6,3/6],
-        [1/6,5/6],[3/6,5/6],[5/6,5/6] 
+        [1/6,1/6],[1/6,3/6],[1/6,5/6],
+        [3/6,1/6],[3/6,3/6],[3/6,5/6],
+        [5/6,1/6],[5/6,3/6],[5/6,5/6] 
 ];
     return coordinateArray;
+}
+
+function numberdidnotexistText(numberexistlist){
+    numberdidnotexist = '';
+    for (let i = 1; i < numberexistlist.length; i ++){
+        if (numberexistlist[i] === 0){
+            numberdidnotexist += i;
+            if (i != numberexistlist.length -1){
+                numberdidnotexist += ',';
+            }
+        }
+    }
+    
+    appendAnswerinresult('空缺數', ':', numberdidnotexist);
 }
