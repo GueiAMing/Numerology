@@ -195,8 +195,8 @@ function drawcircleforeachnumber(numbertimeslist){
                 const centerX = canvas.width * circlePercentX; // 計算圓心 X 坐標
                 const centerY = canvas.height * circlePercentY; // 計算圓心 Y 坐標
                 ctx.arc(centerX, centerY, circleRadius+difference*(j-1), 0, 2 * Math.PI);
-                ctx.strokeStyle = 'blue'; // 設定圓圈顏色
-                ctx.lineWidth = 2;
+                ctx.strokeStyle = 'green'; // 設定圓圈顏色
+                ctx.lineWidth = 1;
                 ctx.stroke();
                 console.log(`繪畫數字${i}的第${j}個圓圈`);
             }
@@ -245,10 +245,10 @@ function drawcircleforeachnumber(numbertimeslist){
         for (let i = 1;i < drawOrnotlist.length; i ++){
             if  (drawOrnotlist[i] === 1){
                     ctx.beginPath();
-                    ctx.globalAlpha = 0.5;
+                    ctx.globalAlpha = 1;
                     ctx.moveTo(lines[i][0].x, lines[i][0].y);
                     ctx.lineTo(lines[i][1].x, lines[i][1].y);
-                    ctx.strokeStyle = 'purple';
+                    ctx.strokeStyle = 'blue';
                     ctx.stroke();
                 }
         }
