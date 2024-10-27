@@ -1,0 +1,40 @@
+<!DOCTYPE html>
+<html lang="zh-TW">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>生命靈數計算器</title>
+    <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+    <div class="container">
+        <h1>生命靈數計算器</h1>
+        <form id="lifepath-form">
+            <label for="birthdate">請輸入你的出生日期:</label>
+            <input type="date" id="birthdate" name="birthdate" required>
+            <button type="button" onclick="calculateLifePathNumber()">計算</button>
+        </form>
+        <div id="result"></div>
+        <div id="numbers-table" class="div-graph">
+            <canvas id="gridCanvas"></canvas>
+            <table class="gridTable">
+                <tbody>
+                    <script>
+                        // 使用 JavaScript 生成表格內容
+                        let count = 1;
+                        for (let i = 0; i < 3; i++) {
+                            document.write("<tr>");
+                            for (let j = 0; j < 3; j++) {
+                                document.write("<td class=td-number>" + count + "</td>");
+                                count++;
+                            }
+                            document.write("</tr>");
+                        }
+                    </script>
+                </tbody>
+            </table>
+        </div>
+    </div>
+    <script src="script.js"></script>
+</body>
+</html>

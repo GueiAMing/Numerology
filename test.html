@@ -1,0 +1,58 @@
+<!DOCTYPE html>
+<html lang="zh-TW">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>星座查詢</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            text-align: center;
+            margin-top: 50px;
+        }
+        .container {
+            display: inline-block;
+            text-align: left;
+        }
+        #zodiac {
+            margin-top: 20px;
+            font-size: 1.2em;
+            color: #333;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>星座查詢</h1>
+        <label for="birthday">選取你的生日：</label>
+        <input type="date" id="birthday">
+        <button onclick="showZodiac()">查詢星座</button>
+        <div id="zodiac"></div>
+    </div>
+
+    <script>
+        function getZodiacSign(day, month) {
+            if ((month == 3 && day >= 21) || (month == 4 && day <= 19)) return "白羊座";
+            else if ((month == 4 && day >= 20) || (month == 5 && day <= 20)) return "金牛座";
+            else if ((month == 5 && day >= 21) || (month == 6 && day <= 20)) return "雙子座";
+            else if ((month == 6 && day >= 21) || (month == 7 && day <= 22)) return "巨蟹座";
+            else if ((month == 7 && day >= 23) || (month == 8 && day <= 22)) return "獅子座";
+            else if ((month == 8 && day >= 23) || (month == 9 && day <= 22)) return "處女座";
+            else if ((month == 9 && day >= 23) || (month == 10 && day <= 22)) return "天秤座";
+            else if ((month == 10 && day >= 23) || (month == 11 && day <= 21)) return "天蠍座";
+            else if ((month == 11 && day >= 22) || (month == 12 && day <= 21)) return "射手座";
+            else if ((month == 12 && day >= 22) || (month == 1 && day <= 19)) return "摩羯座";
+            else if ((month == 1 && day >= 20) || (month == 2 && day <= 18)) return "水瓶座";
+            else if ((month == 2 && day >= 19) || (month == 3 && day <= 20)) return "雙魚座";
+        }
+
+        function showZodiac() {
+            const date = new Date(document.getElementById("birthday").value);
+            const month = date.getMonth() + 1; // 將月份調整到 1-12 範圍
+            const day = date.getDate();
+            const zodiacSign = getZodiacSign(day, month);
+            document.getElementById("zodiac").innerText = `你的星座是: ${zodiacSign}`;
+        }
+    </script>
+</body>
+</html>
